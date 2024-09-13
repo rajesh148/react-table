@@ -1,8 +1,5 @@
-# React + Vite
+Master TanStack Table in 40 mins. A comprehensive tutorial on TanStack React Table, the ultimate solution for creating powerful and interactive data tables in your React applications! In this in-depth video, we will take you through all the essential concepts and features of TanStack React Table, empowering you to effortlessly manage and visualize data like a pro.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Youtube Video Link: https://youtu.be/tdepKc_cWyA
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![TanStack Table (React Table) Crash Course in 40 mins - Beginners Tutorial](https://github.com/user-attachments/assets/874aa789-de4e-4130-945e-825415fe3819)
