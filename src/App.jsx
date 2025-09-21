@@ -3,9 +3,11 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import mockData from "./constants/data.json";
 import {
   ArrowUpDown,
   ChevronLeft,
@@ -17,8 +19,7 @@ import {
   Search,
   User,
 } from "lucide-react";
-import React from "react";
-import mockData from "./constants/data.json";
+import { useState } from "react";
 
 const columnHelper = createColumnHelper();
 
@@ -31,7 +32,6 @@ const columns = [
       </span>
     ),
   }),
-
   columnHelper.accessor("name", {
     cell: (info) => info.getValue(),
     header: () => (
@@ -41,7 +41,6 @@ const columns = [
     ),
   }),
   columnHelper.accessor("email", {
-    id: "email",
     cell: (info) => (
       <span className="italic text-blue-600">{info.getValue()}</span>
     ),
@@ -52,20 +51,19 @@ const columns = [
     ),
   }),
   columnHelper.accessor("phone", {
+    cell: (info) => info.getValue(),
     header: () => (
       <span className="flex items-center">
         <Phone className="mr-2" size={16} /> Phone
       </span>
     ),
-    cell: (info) => info.getValue(),
   }),
 ];
 
-export default function App() {
-  const [data] = React.useState(() => [...mockData]);
-  const [sorting, setSorting] = React.useState([]);
-  const [globalFilter, setGlobalFilter] = React.useState("");
-
+const App = () => {
+  const [data] = useState(() => [...mockData]);
+  const [sorting, setSorting] = useState([]);
+  const [globalFilter, setGlobalFilter] = useState("");
   const table = useReactTable({
     data,
     columns,
@@ -78,6 +76,8 @@ export default function App() {
         pageSize: 5,
       },
     },
+
+    getPaginationRowModel: getPaginationRowModel(),
     getCoreRowModel: getCoreRowModel(),
 
     onSortingChange: setSorting,
@@ -87,8 +87,7 @@ export default function App() {
     getFilteredRowModel: getFilteredRowModel(),
   });
 
-  console.log(table.getRowModel());
-
+  console.log(table.getCoreRowModel());
   return (
     <div className="flex flex-col min-h-screen max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
       <div className="mb-4 relative">
@@ -96,7 +95,7 @@ export default function App() {
           value={globalFilter ?? ""}
           onChange={(e) => setGlobalFilter(e.target.value)}
           placeholder="Search..."
-          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm foucs:ring-indigo-500 focus:border-indigo-500"
         />
         <Search
           className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -152,7 +151,7 @@ export default function App() {
 
       <div className="flex flex-col sm:flex-row justify-between items-center mt-4 text-sm text-gray-700">
         <div className="flex items-center mb-4 sm:mb-0">
-          <span className="mr-2">Items per page</span>
+          <span mr-2>Items per page</span>
           <select
             className="border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 p-2"
             value={table.getState().pagination.pageSize}
@@ -160,7 +159,7 @@ export default function App() {
               table.setPageSize(Number(e.target.value));
             }}
           >
-            {[5, 10, 20, 30].map((pageSize) => (
+            {[5, 10, 15, 20].map((pageSize) => (
               <option key={pageSize} value={pageSize}>
                 {pageSize}
               </option>
@@ -179,7 +178,7 @@ export default function App() {
 
           <button
             className="p-2 rounded-md bg-gray-100 text-gray-600 hover:bg-gray-200 disabled:opacity-50"
-            onClick={() => table.previousPage()}
+            onClick={() => table.previousPage(0)}
             disabled={!table.getCanPreviousPage()}
           >
             <ChevronLeft size={20} />
@@ -207,7 +206,6 @@ export default function App() {
           >
             <ChevronRight size={20} />
           </button>
-
           <button
             className="p-2 rounded-md bg-gray-100 text-gray-600 hover:bg-gray-200 disabled:opacity-50"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
@@ -219,4 +217,6 @@ export default function App() {
       </div>
     </div>
   );
-}
+};
+
+export default App;
